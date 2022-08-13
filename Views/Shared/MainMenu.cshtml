@@ -1,0 +1,22 @@
+﻿@*@model List<Model.EF.Menu>*@
+@model List<testmongo.Models.Menu>
+
+<div class="h_menu">
+    @*<a id="touch-menu" class="mobile-menu" href="#">Menu</a>*@
+    <nav>
+        <ul class="menu list-unstyled">
+            @foreach (var item in Model)
+            {
+                //var child = Model.Where(x => x.MenuParentID == item.MenuID);
+                //var parentClass = child.Count() > 0 ? "class=dropdown-toggle data-toggle=dropdown" : "";
+                <li class="dropdown">
+                    @*<a href="@item.Link" target="@item.Target">@item.Text</a>*@
+                    <a href="@item.Link" target="@item.Target">@item.Text</a>
+                    @*<a href="/san-pham/@item.MetaTitle-@item.ID" @parentClass>@item.Name</a>*@
+                </li>
+            }
+
+            <div class="clear"> </div>
+        </ul>
+    </nav>
+</div>

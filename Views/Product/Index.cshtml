@@ -1,0 +1,93 @@
+﻿@model IEnumerable<testmongo.Models.Product>
+
+@{ ViewBag.Title = "Index"; }
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@{
+    DateTime date;
+    date = DateTime.Today;
+}
+
+@using (Html.BeginForm("Index", "Product", FormMethod.Get))
+{
+<div class="row form-group">
+    <div class="col-lg-12">
+
+        <p>
+            Title: @Html.TextBox("SearchString") --- Category: @Html.DropDownList("categoryID", "All") --- Price from:
+            <input type="number" value="0" style="width:100px" name="minp" />
+            to
+            <input type="number" value="0" style="width:100px" name="maxp" />
+
+            @*--- Created Date from:
+            <input type="datetime" value="@Html.Raw(date)" style="width:100px" name="a" />
+            to
+            <input type="datetime" value="@Html.Raw(date)" style="width:100px" name="b" />*@
+        </p>
+
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-success">Search</button>
+            @*<a class="btn btn-danger" href="/Admin/Product/DeleteAll" style=" margin:0 0 0 0px">Xóa</a>
+                <a class="btn btn-primary" href="/Admin/Product/Create">Thêm mới</a>*@
+        </div>
+    </div>
+</div>}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </th>*@
+
+        @*<th>
+            @Html.DisplayNameFor(model => model.ProductImage)
+        </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductDescription)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Quantity)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Price)
+    </td>
+    @*<td>
+        @Html.DisplayFor(modelItem => item.CreateDate)
+    </td>*@
+    @*<td>
+        @Html.DisplayFor(modelItem => item.ProductImage)
+    </td>*@
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Detail", "Detail", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>}
+
+</table>

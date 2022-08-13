@@ -1,0 +1,83 @@
+﻿@model IEnumerable<testmongo.Models.Employee>
+@{ ViewBag.Title = "Employee Details"; }
+
+<h3 style="text-align:center">Employee Details</h3>
+
+<p>
+    @Html.ActionLink("Add New Employee", "Index")
+</p>
+
+@using (Html.BeginForm("emplist", "Home", FormMethod.Get))
+{
+<div class="row form-group">
+    <div class="col-lg-12">
+
+        <p>
+            Title: @Html.TextBox("SearchString") @*--- Category: @Html.DropDownList("categoryID", "All") --- Nhập giá:*@
+            @*Từ
+            <input type="number" value="7" style="width:100px" name="minp" />
+            Đến
+            <input type="number" value="maxp" style="width:100px" name="maxp" />
+
+            --- Ngày nhập:
+            Từ
+            <input type="datetime" value="@Html.Raw(date)" style="width:100px" name="a" />
+            Đến
+            <input type="datetime" value="@Html.Raw(date)" style="width:100px" name="b" />*@
+        </p>
+
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-success">Tìm kiếm</button>
+            @*<a class="btn btn-danger" href="/Admin/Product/DeleteAll" style=" margin:0 0 0 0px">Xóa</a>
+            <a class="btn btn-primary" href="/Admin/Product/Create">Thêm mới</a>*@
+        </div>
+    </div>
+</div>}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Department)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Department)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Address)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.City)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Country)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Detail", "Detail", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>
+}
+
+</table>   

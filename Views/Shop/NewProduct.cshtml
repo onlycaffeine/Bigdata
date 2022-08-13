@@ -1,0 +1,21 @@
+﻿@model List<testmongo.Models.Product>
+
+<div class="section group">
+    @foreach (var item in Model)
+    {
+        var url = "/chi-tiet/" + item.MetaTitle + "-" + item.Id;
+        <div class="grid_1_of_4 images_1_of_4">
+            <a href="@url"><img src="@item.ProductImage" alt="@item.ProductName" /></a>
+            <div class="discount">
+                <span class="percentage">10%</span>
+            </div>
+            <h2>@item.ProductName </h2>
+            <p><span class="price">@(item.Price)</span></p>
+            <div class="button"><span><img src="/Assets/Client/images/cart.jpg" alt="" /><a href="/them-gio-hang?productId=@item.Id&quantity=1" class="cart-button">Thêm vào giỏ</a></span> </div>
+            <div class="button"><span><a href="@url" class="details">Chi tiết</a></span></div>
+        </div>
+    }
+
+</div>
+@*<span class="strike">$438.99</span>*@
+@*.HasValue?item.Price.Value.ToString("No") : "Liên hệ")*@

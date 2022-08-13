@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout0.cshtml";
+    //var slides = (List<Model.EF.Slider>)ViewBag.Slides;
+    //var listFeatureProducts = (List<Model.EF.Product>)ViewBag.ListFeatureProducts;
+    //var listNewProducts = (List<Model.EF.Product>)ViewBag.ListNewProducts;
+}
+
+@section slider
+{
+    <div class="header_bottom_left">
+        <div class="categories">
+            @{ Html.RenderAction("ProductCategory", "Shop");}
+        </div>
+
+        <div class="clear"></div>
+    </div>
+
+    <div class="header_bottom_right_images">
+        <section class="slider">
+            <div class="flexslider">
+                <ul class="slides">
+                    <li><img src="/Assets/Client/images/1.jpg" alt="" /></li>
+                    <li><img src="/Assets/Client/images/2.jpg" alt="" /></li>
+                    <li><img src="/Assets/Client/images/3.jpg" alt="" /></li>
+                    <li><img src="/Assets/Client/images/4.jpg" alt="" /></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="slider">
+            <div class="flexslider">
+                <ul class="slides">
+                    <li><img src="/Assets/Client/images/5.jpg" alt="" /></li>
+                    <li><img src="/Assets/Client/images/6.jpg" alt="" /></li>
+                    <li><img src="/Assets/Client/images/7.jpg" alt="" /></li>
+                    <li><img src="/Assets/Client/images/8.jpg" alt="" /></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <div class="clear"></div>
+}
+
+<div class="content">
+    <div class="content_top">
+        <div class="heading">
+            <h3>Sản phẩm bán chạy</h3>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    @{ Html.RenderAction("FeatureProduct", "Shop");}
+
+    <div class="content_bottom">
+        <div class="heading">
+            <h3>Sản phẩm mới</h3>
+        </div>
+        <div class="clear"></div>
+    </div>
+    @{ Html.RenderAction("NewProduct", "Shop");}
+</div>
+

@@ -1,0 +1,19 @@
+﻿@model List<testmongo.Models.Menu>
+
+<div class="account_desc">
+    @{
+        var session = Session[testmongo.Areas.Common.CommonConstants.USER_SESSION];
+    }
+
+    @if (session == null)
+    {
+    }
+    else
+    {
+        <div>
+            @Html.ActionLink("Thoát", "Logout", "User")
+        </div>
+    }
+
+</div>
+<div class="clear"></div>
