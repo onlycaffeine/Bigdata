@@ -142,21 +142,27 @@
     <Compile Include="Areas\Common\CommonConstants.cs" />
     <Compile Include="Areas\Common\Encryptor.cs" />
     <Compile Include="Areas\Common\UserLogin.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\ShowProductController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Content.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Footer.cs" />
+    <Compile Include="Models\LoginModel1.cs" />
     <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -3164,6 +3170,13 @@
     <Content Include="Views\Shop\TopMenu.cshtml" />
     <Content Include="Views\Shop\NewProduct.cshtml" />
     <Content Include="Views\ShowProduct\Category.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\Success.cshtml" />
+    <Content Include="Views\Cart\Payment.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\History.cshtml" />
+    <Content Include="Views\User\Rate.cshtml" />
+    <Content Include="Views\Shop\RecommendProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

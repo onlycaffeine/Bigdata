@@ -27,9 +27,11 @@ namespace testmongo.Controllers
 
         public ActionResult Category(string cateId, int page = 1, int pageSize = 1)
         {
+            var cateID = new ObjectId(cateId);
+
             MongoClient Client = new MongoClient("mongodb+srv://sa:sa@cluster0.pxuvg.mongodb.net/?retryWrites=true&w=majority");
             var DB = Client.GetDatabase("Employee");
-            var Cate = DB.GetCollection<ProductCategory>("ProductCategory").Find(Builders<ProductCategory>.Filter.Where(s => s.CategoryId == cateId)).SingleOrDefault();
+            var Cate = DB.GetCollection<ProductCategory>("ProductCategory").Find(Builders<ProductCategory>.Filter.Where(s => s.Id == cateID)).SingleOrDefault();
 
             var collection = DB.GetCollection<Product>("ProductDetails").Find(Builders<Product>.Filter.Where(s => s.CategoryID == cateId)).ToList();
 

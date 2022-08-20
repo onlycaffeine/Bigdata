@@ -1,0 +1,61 @@
+﻿@model IEnumerable<testmongo.Models.OrderDetail>
+@*@using PagedList.Mvc;*@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout0.cshtml";
+}
+    
+@*@section header{
+        Lịch sử mua hàng
+    }*@
+
+<div class="content">
+    <div class="section group">
+
+        @if (Model.Count() > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Mã SP</td>
+                        <td>Số lượng</td>
+                        <td>Đơn giá</td>
+                        <td>Thành tiền</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        @*<tr id="row_@item.ProductID@item.ProductID">
+                                string btnadd = "btnAddEmployee" + item.Sophieudangky;
+                            }*@
+                    var url = "/danh-gia/"  + item.ProductID;
+
+                        <tr>
+                            <td>@item.ProductID</td>
+                            <td><input type="text" class="txtQuantity" data-id="@item.ProductID" value="@item.Quantity" /></td>
+                            <td>@item.Price</td>
+                            <td>@((item.Price * item.Quantity))</td>
+                            <td><a href="@url" data-id="@item.ProductID" class="btn-delete">Đánh giá</a></td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+            <button id="btnContinue" class="btn">Tiếp tục mua hàng</button>
+            <button id="btnUpdate" class="btn">Cập nhật giỏ hàng</button>
+            <button id="btnDeleteAll" class="btn">Xoá giỏ hàng</button>
+            <button id="btnPayment" class="btn">Thanh toán</button>
+        }
+        else
+        {
+            <span class="alert alert-danger">Bạn chưa mua sản phẩm nào</span>
+        }
+
+    </div>
+
+</div>
+

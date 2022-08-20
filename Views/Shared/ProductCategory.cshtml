@@ -1,10 +1,8 @@
 ﻿@model List<testmongo.Models.ProductCategory>
-    <ul>
-        <div class="badge">Danh mục sản phẩm</div>
-        <div class="" list-group"">
-            @foreach (var item in Model)
-            {
-                    <a href="/san-pham/@item.MetaTitle-@item.Id" class="list-group-item list-group-item-action list-group-item-primary">@item.CategoryName</a>
-            }
-        </div>
-    </ul>
+<div class="badge">Danh mục sản phẩm</div>
+<div class="" list-group"">
+    @foreach (var item in Model)
+    {
+        <a href="/san-pham/@item.MetaTitle-@item.Id" class="list-group-item list-group-item-action list-group-item-primary">@item.CategoryName</a>
+    }
+</div>

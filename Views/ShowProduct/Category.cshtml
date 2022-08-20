@@ -1,8 +1,8 @@
-﻿@model List<testmongo.Models.ProductViewModel>
+﻿@model List<testmongo.Models.Product>
 @{
     var category = (testmongo.Models.ProductCategory)ViewBag.Category;
     ViewBag.Title = category.CategoryName;
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout0.cshtml";
 
 }
 <div class="content">
@@ -49,13 +49,13 @@
     <div class="section group">
         @foreach (var item in Model)
         {
-            var link = "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+            var link = "/chi-tiet/" + item.MetaTitle + "-" + item.Id;
 
             <div class="grid_1_of_4 images_1_of_4">
-                <a href="@link"><img src="@item.Images" width="170" alt="" /></a>
+                <a href="@link"><img src="@item.ProductImage" width="170" alt="" /></a>
                 @*<h2>@item.Name</h2>*@
-                <span>@item.CateName</span>
-                <p><span class="price">@(item.Price.HasValue ? item.Price.Value.ToString("N0") : "Liên hệ")</span></p>
+                <span>@item.ProductName</span>
+                <p><span class="price">@(item.Price)</span></p>
                 @*<div class="button"><span><img src="/Assets/Client/images/cart.jpg" alt="" /><a href="/gio-hang/@item.ID" class="cart-button">Thêm vào giỏ</a></span> </div>*@
                 <div><a href="@link" class="details">Xem chi tiết</a></div>
             </div>

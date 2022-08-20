@@ -27,7 +27,7 @@ namespace testmongo.Models
         public int Quantity { get; set; }
 
         [BsonElement("Price")]
-        public int? Price { get; set; }
+        public int Price { get; set; }
 
         [BsonElement("CreateDate")]
         public DateTime CreateDate { get; set; }
@@ -46,5 +46,8 @@ namespace testmongo.Models
 
         [BsonElement("MetaTitle")]
         public string MetaTitle { get; set; }
+
+        [BsonElement("StarRated")]
+        public double StarRated { get; set; }
     }
 }

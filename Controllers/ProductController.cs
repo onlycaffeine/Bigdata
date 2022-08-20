@@ -47,13 +47,10 @@ namespace testmongo.Controllers
 
             MongoClient Client = new MongoClient("mongodb+srv://sa:sa@cluster0.pxuvg.mongodb.net/?retryWrites=true&w=majority");
             var db = Client.GetDatabase("Employee");
-            //var collection = db.GetCollection<Product>("ProductDetails").Find(new BsonDocument()).ToList();
 
             var categories = from c in db.GetCollection<ProductCategory>("ProductCategory").Find(new BsonDocument()).ToList() select c;
             ViewBag.CategoryID = new SelectList(categories, "Id", "CategoryName"); // danh sách Category
             ViewBag.SearchString = searchString;
-            //var collection = db.GetCollection<Product>("ProductDetails");
-            //var model = collection.Find(Builders<Product>.Filter.Where(s => s.ProductName.Contains(searchString))).ToList();
 
             var model = from l in db.GetCollection<Product>("ProductDetails").Find(new BsonDocument()).ToList() // lấy toàn bộ sp
             //join c in db.GetCollection<ProductCategory>("ProductCategory").Find(new BsonDocument()).ToList() on l.CategoryID equals c.Id
@@ -66,7 +63,6 @@ namespace testmongo.Controllers
 
 
             if (!string.IsNullOrEmpty(CategoryID))
-                //if (CategoryID != null)
                 {
                 model = model.Where(x => x.CategoryID == CategoryID);
             }
@@ -110,58 +106,6 @@ namespace testmongo.Controllers
                 listLinks.Add(temp);
             }
 
-            
-
-            //if (!string.IsNullOrEmpty(searchString))
-            //{
-            //    var collection = db.GetCollection<Product>("ProductDetails");
-            //    var model = collection.Find(Builders<Product>.Filter.Where(s => s.ProductName.Contains(searchString))).ToList();
-            //    return View(model);
-            //}
-
-            //if (!string.IsNullOrEmpty(CategoryID))
-            //{
-            //    var collection = db.GetCollection<Product>("ProductDetails");
-            //    var model = collection.Find(Builders<Product>.Filter.Where(s => s.CategoryID == CategoryID)).ToList();
-            //    return View(model);
-            //}
-
-            //if (!string.IsNullOrEmpty(a))
-            //{
-            //    DateTime createdate1 = Convert.ToDateTime(a);
-            //    DateTime createdate2 = Convert.ToDateTime(b);
-            //    //model = model.Where(x => x.CreatedDate >= createdate1 && x.CreatedDate <= createdate2);
-            //    var collection = db.GetCollection<Product>("ProductDetails");
-            //    var model = collection.Find(Builders<Product>.Filter.Where(x => x.CreateDate >= createdate1 && x.CreateDate <= createdate2)).ToList();
-            //    return View(model);
-            //}
-
-            //if (minp != 0 && maxp != 0)
-            //{
-            //    var collection = db.GetCollection<Product>("ProductDetails");
-            //    var model = collection.Find(Builders<Product>.Filter.Where(s => s.Price >= minp && s.Price <= maxp)).ToList();
-            //    return View(model);
-            //}
-
-            //if (minp != 0)
-            //{
-            //    var collection = db.GetCollection<Product>("ProductDetails");
-            //    var model = collection.Find(Builders<Product>.Filter.Where(s => s.Price >= minp)).ToList();
-            //    return View(model);
-            //}
-
-            //if (maxp != 0)
-            //{
-            //    var collection = db.GetCollection<Product>("ProductDetails");
-            //    var model = collection.Find(Builders<Product>.Filter.Where(s => s.Price <= maxp)).ToList();
-            //    return View(model);
-            //}
-
-            //else
-            //{
-            //    var collection = db.GetCollection<Product>("ProductDetails").Find(new BsonDocument()).ToList();
-            //    return View(collection);
-            //}
             return View(listLinks);
         }
 
@@ -191,7 +135,6 @@ namespace testmongo.Controllers
             var productId = new ObjectId(id);
             var product = collection.AsQueryable<Product>().SingleOrDefault(x => x.Id == productId);
             return View(product);
-
         }
 
         [HttpPost]

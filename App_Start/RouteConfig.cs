@@ -94,6 +94,20 @@ namespace testmongo
            );
 
             routes.MapRoute(
+               name: "Rate",
+               url: "danh-gia/{id}",
+               defaults: new { controller = "User", action = "Rate", id = UrlParameter.Optional },
+               namespaces: new[] { "testmongo.Controllers" }
+            );
+
+            routes.MapRoute(
+              name: "History",
+              url: "lich-su",
+              defaults: new { controller = "User", action = "History", id = UrlParameter.Optional },
+              namespaces: new[] { "testmongo.Controllers" }
+            );
+
+            routes.MapRoute(
               name: "Cart",
               url: "gio-hang",
               defaults: new { controller = "Cart", action = "Index", id = UrlParameter.Optional },

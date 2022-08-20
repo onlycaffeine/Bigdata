@@ -2,7 +2,7 @@
 
 <div class="account_desc">
     @{
-        var session = Session[testmongo.Areas.Common.CommonConstants.USER_SESSION];
+        var session = (UserLogin)Session[testmongo.Areas.Common.CommonConstants.USER_SESSION];
     }
 
     @if (session == null)
@@ -10,9 +10,16 @@
     }
     else
     {
-        <div>
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li><a href="@item.Link" target="@item.Target">@item.Text</a></li>
+            }
+
+            <p style="width: 150px;">Xin chào:@session.UserName</p>
             @Html.ActionLink("Thoát", "Logout", "User")
-        </div>
+        </ul>
+
     }
 
 </div>
