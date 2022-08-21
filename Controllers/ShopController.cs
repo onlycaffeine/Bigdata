@@ -135,6 +135,66 @@ namespace testmongo.Controllers
 
         }
 
+        public static double GetCosineSimilarity(List<double> V1, List<double> V2)
+        {
+            int N = 0;
+            N = ((V2.Count < V1.Count) ? V2.Count : V1.Count);
+            double dot = 0.0d;
+            double mag1 = 0.0d;
+            double mag2 = 0.0d;
+            for (int n = 0; n < N; n++)
+            {
+                dot += V1[n] * V2[n];
+                mag1 += Math.Pow(V1[n], 2);
+                mag2 += Math.Pow(V2[n], 2);
+            }
+
+            return dot / (Math.Sqrt(mag1) * Math.Sqrt(mag2));
+        }
+
+        public double GetTopkSimilarityUser(ObjectId uid)
+        {
+
+            List<Product> listLinks = new List<Product>();
+            MongoClient Client = new MongoClient("mongodb+srv://sa:sa@cluster0.pxuvg.mongodb.net/?retryWrites=true&w=majority");
+            var db = Client.GetDatabase("Employee");
+            var collectionpr = db.GetCollection<Product>("ProductDetails").Find(new BsonDocument()).ToList();
+            //var collectionus = db.GetCollection<User>("User").Find(new BsonDocument()).ToList();
+            int n = collectionpr.Count();
+
+            double[] a = new double[n];
+            double[] b = new double[n];
+
+            var modelpr = from l in collectionpr select new { l.Id, l.StarRated};
+            var modelus = from l in db.GetCollection<OrderDetail>("OrderDetail").AsQueryable() // lấy toàn bộ sp
+                         join c in db.GetCollection<Order>("Order").AsQueryable() on l.OrderID equals c.Id
+                         join k in db.GetCollection<User>("User").AsQueryable() on c.CustomerID equals k.Id
+                         where k.Status == true
+                         select new { l.ProductID, k.Id, l.StarRated };
+
+            int i = 0;
+            foreach (var item in modelpr)
+            {
+                bool check = false;
+                foreach (var item0 in modelus.Where(x => x.Id == uid))
+                {
+                    if(item0.ProductID == item.Id)
+                    {
+                        a[i] = item0.StarRated;
+                        check = true;
+                    }
+                }
+
+                if(check == false)
+                {
+                    a[i] = 0;
+                }
+                i++;
+            }
+
+            return 0;
+        }
+
         public ActionResult RecommendProduct()
         {
             List<Product> listLinks = new List<Product>();
@@ -155,7 +215,7 @@ namespace testmongo.Controllers
                          join b in db.GetCollection<Product>("ProductDetails").AsQueryable() on l.ProductID equals b.Id
                          join c in db.GetCollection<Order>("Order").AsQueryable() on l.OrderID equals c.Id
                          join k in db.GetCollection<User>("User").AsQueryable() on c.CustomerID equals k.Id
-                         where b.Status == true && k.Status == true && b.StarRated >= 2.5
+                         where  l.StarRated >= 1
                          select new { l.OrderID, l.ProductID, l.Price, l.Quantity, k.Id, b.ProductName, b.ProductImage, b.MetaTitle };
 
             foreach (var item in model)
@@ -168,11 +228,12 @@ namespace testmongo.Controllers
                         if (item1.ProductID == item0.ProductID)
                         {
                             check = true;
+                            break;
                         }
                     }
                     foreach (var item1 in model1.Where(x => x.Id == item.Id))
                     {
-                        if (check == true && item1 != item0)
+                        if (check == true && item1.ProductID != item0.ProductID)
                         {
                             Product temp = new Product();
                             temp.Id = item1.ProductID;
@@ -188,7 +249,7 @@ namespace testmongo.Controllers
                 }
             }
 
-            return PartialView(listLinks.Take(4).Distinct().OrderByDescending(x => x.Price));
+            return PartialView(listLinks.Take(4).Distinct().OrderByDescending(x => x.StarRated));
 
         }
     }

@@ -3177,6 +3177,8 @@
     <Content Include="Views\User\History.cshtml" />
     <Content Include="Views\User\Rate.cshtml" />
     <Content Include="Views\Shop\RecommendProduct.cshtml" />
+    <Content Include="Views\ShowProduct\Search.cshtml" />
+    <Content Include="Views\Product\Order.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

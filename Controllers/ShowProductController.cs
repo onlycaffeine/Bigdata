@@ -34,42 +34,9 @@ namespace testmongo.Controllers
             var Cate = DB.GetCollection<ProductCategory>("ProductCategory").Find(Builders<ProductCategory>.Filter.Where(s => s.Id == cateID)).SingleOrDefault();
 
             var collection = DB.GetCollection<Product>("ProductDetails").Find(Builders<Product>.Filter.Where(s => s.CategoryID == cateId)).ToList();
-
-            //var category = new CategoryDao().ViewDetail(cateId);
             ViewBag.Category = Cate;
             int totalRecord = 0;
-            //var model = new ProductDao().ListByCategoryId(cateId, ref totalRecord, page, pageSize);
             var model = collection.OrderByDescending(x => x.CreateDate).Skip((1 - 1) * 2).Take(2);
-
-            //totalRecord = collection.Count();
-            //var model = (from a in DB.GetCollection<Product>("ProductDetails").Find(Builders<Product>.Filter.Where(s => s.CategoryID == cateId)).ToList()
-            //             where a.CategoryID == cateId
-            //             select new
-            //             {
-            //                 CateMetaTitle = a.MetaTitle,
-            //                 //CateName = a.ProductName,
-            //                 CreateDate = a.CreateDate,
-            //                 //ID = a.Id,
-            //                 Images = a.ProductImage,
-            //                 Name = a.ProductName,
-            //                 MetaTitle = a.MetaTitle,
-            //                 Price = a.Price
-            //             }).AsEnumerable().Select(x => new ProductViewModel()
-            //             {
-            //                 CateMetaTitle = x.MetaTitle,
-            //                 CateName = x.Name,
-            //                 CreateDate = x.CreateDate,
-            //                 //ID = x.ID,
-            //                 Images = x.Images,
-            //                 Name = x.Name,
-            //                 MetaTitle = x.MetaTitle,
-            //                 Price = x.Price
-            //             });
-            //model.OrderByDescending(x => x.CreateDate).Skip((1 - 1) * pageSize).Take(pageSize);
-            //var ok = model.ToList();
-
-
-
 
             ViewBag.Total = totalRecord;
             ViewBag.Page = page;
@@ -85,33 +52,68 @@ namespace testmongo.Controllers
             ViewBag.Next = page + 1;
             ViewBag.Prev = page - 1;
 
-            //return View(ok);
             return View(collection);
         }
 
-        //public ActionResult Search(string keyword, int page = 1, int pageSize = 1)
-        //{
-        //    int totalRecord = 0;
-        //    var model = new ProductDao().Search(keyword, ref totalRecord, page, pageSize);
+        public List<ProductViewModel> Search1(string keyword, ref int totalRecord, int pageIndex = 1, int pageSize = 2)
+        {
+            List<Product> listLinks = new List<Product>();
+            MongoClient Client = new MongoClient("mongodb+srv://sa:sa@cluster0.pxuvg.mongodb.net/?retryWrites=true&w=majority");
+            var db = Client.GetDatabase("Employee");
+            var collectionpr = db.GetCollection<Product>("ProductDetails").Find(new BsonDocument()).ToList();
+            totalRecord = db.GetCollection<Product>("ProductDetails").Find(Builders<Product>.Filter.Where(s => s.ProductName == keyword)).ToList().Count();
 
-        //    ViewBag.Total = totalRecord;
-        //    ViewBag.Page = page;
-        //    ViewBag.Keyword = keyword;
-        //    int maxPage = 5;
-        //    int totalPage = 0;
+            //totalRecord = db.Products.Where(x => x.ProductName == keyword).Count();
+            var model = (from b in db.GetCollection<ProductCategory>("ProductCategory").AsQueryable() // lấy toàn bộ sp
+                         join a in db.GetCollection<Product>("ProductDetails").AsQueryable() on b.CategoryId equals a.CategoryID
+                         where a.ProductName.Contains(keyword)
+                         select new
+                         {
+                             CateMetaTitle = b.MetaTitle,
+                             CateName = b.CategoryName,
+                             CreateDate = a.CreateDate,
+                             ID = a.Id,
+                             Images = a.ProductImage,
+                             Name = a.ProductName,
+                             MetaTitle = a.MetaTitle,
+                             Price = a.Price
+                         }).AsEnumerable().Select(x => new ProductViewModel()
+                         {
+                             CateMetaTitle = x.MetaTitle,
+                             CateName = x.Name,
+                             CreateDate = x.CreateDate,
+                             ID = x.ID.ToString(),
+                             Images = x.Images,
+                             Name = x.Name,
+                             MetaTitle = x.MetaTitle,
+                             Price = x.Price
+                         });
+            model.OrderByDescending(x => x.CreateDate).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            return model.ToList();
+        }
 
-        //    totalPage = (int)Math.Ceiling((double)(totalRecord / pageSize));
-        //    ViewBag.TotalPage = totalPage;
-        //    ViewBag.MaxPage = maxPage;
-        //    ViewBag.First = 1;
-        //    ViewBag.Last = totalPage;
-        //    ViewBag.Next = page + 1;
-        //    ViewBag.Prev = page - 1;
+        public ActionResult Search(string keyword, int page = 1, int pageSize = 1)
+        {
+            int totalRecord = 0;
+            var model = Search1(keyword, ref totalRecord, page, pageSize);
 
-        //    return View(model);
-        //}
+            ViewBag.Total = totalRecord;
+            ViewBag.Page = page;
+            ViewBag.Keyword = keyword;
+            int maxPage = 5;
+            int totalPage = 0;
 
-        ////[OutputCache(CacheProfile = "Cache1DayForProduct")]
+            totalPage = (int)Math.Ceiling((double)(totalRecord / pageSize));
+            ViewBag.TotalPage = totalPage;
+            ViewBag.MaxPage = maxPage;
+            ViewBag.First = 1;
+            ViewBag.Last = totalPage;
+            ViewBag.Next = page + 1;
+            ViewBag.Prev = page - 1;
+
+            return View(model);
+        }
+
         //public ActionResult Detail(long id)
         //{
         //    var product = new ProductDao().ViewDetail(id);
@@ -119,5 +121,6 @@ namespace testmongo.Controllers
         //    ViewBag.RelatedProducts = new ProductDao().ListRelatedProducts(id);
         //    return View(product);
         //}
+
     }
 }

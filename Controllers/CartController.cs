@@ -160,13 +160,16 @@ namespace testmongo.Controllers
         [HttpPost]
         public ActionResult Payment(string shipName, string mobile, string address, string email)
         {
+
+            var session = (UserLogin)Session[testmongo.Areas.Common.CommonConstants.USER_SESSION];
+            var uid = new ObjectId(session.UserID);
             var order = new Order();
-            order.CreateDate = DateTime.Now;
+            order.CreateDate = DateTime.Now.ToString();
             order.ShipAddress = address;
             order.ShipMobile = mobile;
             order.ShipName = shipName;
             order.ShipEmail = email;
-
+            order.CustomerID = uid;
             try
             {
                 var id = Insertod(order);

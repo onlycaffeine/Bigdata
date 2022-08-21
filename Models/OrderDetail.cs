@@ -25,13 +25,15 @@ namespace testmongo.Models
         public int Price { get; set; }
 
         [BsonElement("StatusID")]
-        public string StatusID { get; set; }
+        public bool StatusID { get; set; }
 
         [BsonElement("StarRated")]
-        public string StarRated { get; set; }
+        public Double StarRated { get; set; }
 
         [BsonElement("Comment")]
         public string Comment { get; set; }
+        public string ProductName { get; set; }
+        public string ProductImage { get; set; }
 
     }
 }

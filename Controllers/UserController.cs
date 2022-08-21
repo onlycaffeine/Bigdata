@@ -109,10 +109,11 @@ namespace testmongo.Controllers
             var session = (UserLogin)Session[testmongo.Areas.Common.CommonConstants.USER_SESSION];
             var uid = new ObjectId(session.UserID);
             var model = from l in db.GetCollection<OrderDetail>("OrderDetail").AsQueryable() // lấy toàn bộ sp
+                        join b in db.GetCollection<Product>("ProductDetails").AsQueryable() on l.ProductID equals b.Id
                         join c in db.GetCollection<Order>("Order").AsQueryable() on l.OrderID equals c.Id
                         join k in db.GetCollection<User>("User").AsQueryable() on c.CustomerID equals k.Id
                         //where k.Id == uid
-                        select new { l.Id, l.OrderID, l.ProductID, l.Price, l.Quantity, c.CustomerID};
+                        select new { l.Id, l.OrderID, l.ProductID, l.Price, l.Quantity, c.CustomerID, b.ProductName, b.ProductImage };
 
 
             model = model.Where(x => x.CustomerID == uid);
@@ -123,6 +124,9 @@ namespace testmongo.Controllers
                 temp.ProductID = item.ProductID;
                 temp.Price = item.Price;
                 temp.Quantity = item.Quantity;
+                temp.Id = item.Id;
+                temp.ProductName = item.ProductName;
+                temp.ProductImage = item.ProductImage;
                 listLinks.Add(temp);
             }
 
@@ -133,28 +137,28 @@ namespace testmongo.Controllers
         {
             MongoClient Client = new MongoClient("mongodb+srv://sa:sa@cluster0.pxuvg.mongodb.net/?retryWrites=true&w=majority");
             var Db = Client.GetDatabase("Employee");
-            var collection = Db.GetCollection<Product>("ProductDetails");
+            var collection = Db.GetCollection<OrderDetail>("OrderDetail");
 
-            var productId = new ObjectId(id);
-            var product = collection.AsQueryable<Product>().SingleOrDefault(x => x.Id == productId);
-            return View(product);
+            var OrderDetailId = new ObjectId(id);
+            var OrderDetail = collection.AsQueryable<OrderDetail>().SingleOrDefault(x => x.Id == OrderDetailId);
+            return View(OrderDetail);
         }
 
         [HttpPost]
-        public ActionResult Rate(string id, Product Empdet)
+        public ActionResult Rate(string id, OrderDetail Empdet)
         {
             MongoClient Client = new MongoClient("mongodb+srv://sa:sa@cluster0.pxuvg.mongodb.net/?retryWrites=true&w=majority");
             var Db = Client.GetDatabase("Employee");
-            var collection = Db.GetCollection<Product>("ProductDetails");
+            var collection = Db.GetCollection<OrderDetail>("OrderDetail");
             try
             {
                 //TODO: Add update logic here
-                var filter = Builders<Product>.Filter.Eq("_id", ObjectId.Parse(id));
-                var update = Builders<Product>.Update
+                var filter = Builders<OrderDetail>.Filter.Eq("_id", ObjectId.Parse(id));
+                var update = Builders<OrderDetail>.Update
                     .Set("StarRated", Empdet.StarRated);
-
                 var result = collection.UpdateMany(filter, update);
-                return RedirectToAction("Index");
+
+                return RedirectToAction("History");
             }
             catch
             {

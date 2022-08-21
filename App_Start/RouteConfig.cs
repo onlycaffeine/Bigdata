@@ -26,7 +26,7 @@ namespace testmongo
             routes.MapRoute(
               name: "Product Detail",
               url: "chi-tiet/{metatitle}-{id}",
-              defaults: new { controller = "Product", action = "Detail", id = UrlParameter.Optional },
+              defaults: new { controller = "ShowProduct", action = "Detail", id = UrlParameter.Optional },
               namespaces: new[] { "testmongo.Controllers" }
             );
 
@@ -40,7 +40,7 @@ namespace testmongo
             routes.MapRoute(
                name: "Feature",
                url: "ban-chay",
-               defaults: new { controller = "Home", action = "List1", id = UrlParameter.Optional },
+               defaults: new { controller = "ShowProduct", action = "Chart", id = UrlParameter.Optional },
                namespaces: new[] { "testmongo.Controllers" }
            );
 
@@ -54,7 +54,7 @@ namespace testmongo
             routes.MapRoute(
                name: "Search",
                url: "tim-kiem",
-               defaults: new { controller = "Product", action = "Search", id = UrlParameter.Optional },
+               defaults: new { controller = "ShowProduct", action = "Search", id = UrlParameter.Optional },
                namespaces: new[] { "testmongo.Controllers" }
            );
 

@@ -19,7 +19,7 @@ namespace testmongo.Models
         public string ShipName { get; set; }
 
         [BsonElement("CreateDate")]
-        public DateTime CreateDate { get; set; }
+        public string CreateDate { get; set; }
 
         [BsonElement("ShipMobile")]
         public string ShipMobile { get; set; }

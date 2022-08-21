@@ -126,6 +126,27 @@ namespace testmongo.Controllers
             }
         }
 
+        public ActionResult Order(string searchString)
+        {
+            ViewBag.SearchString = searchString;
+
+            MongoClient Client = new MongoClient("mongodb+srv://sa:sa@cluster0.pxuvg.mongodb.net/?retryWrites=true&w=majority");
+            var db = Client.GetDatabase("Employee");
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var collection = db.GetCollection<Order>("Order");
+                var model = collection.Find(Builders<Order>.Filter.Where(s => s.ShipName.Contains(searchString))).ToList();
+                return View(model);
+            }
+
+            else
+            {
+                var collection = db.GetCollection<Order>("Order").Find(new BsonDocument()).ToList();
+                return View(collection);
+            }
+        }
+
         public ActionResult Edit(string id)
         {
             MongoClient Client = new MongoClient("mongodb+srv://sa:sa@cluster0.pxuvg.mongodb.net/?retryWrites=true&w=majority");
